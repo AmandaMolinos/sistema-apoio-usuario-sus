@@ -1,0 +1,7 @@
+package br.com.ptcc.sus.application.usecase;
+import br.com.ptcc.sus.application.port.*;import br.com.ptcc.sus.domain.model.Usuario;import org.junit.jupiter.api.*;import org.junit.jupiter.api.extension.ExtendWith;import org.mockito.*;import org.mockito.junit.jupiter.MockitoExtension;import java.util.Optional;import static org.junit.jupiter.api.Assertions.*;import static org.mockito.Mockito.*;
+@ExtendWith(MockitoExtension.class) class LoginUsuarioTest {
+ @Mock UsuarioPort usuarios;@Mock SenhaPort senhas;@Mock TokenPort tokens;@InjectMocks LoginUsuario caso;
+ @Test void retornaTokenQuandoCredenciaisValidas(){when(usuarios.buscarPorEmail("ana@exemplo.com")).thenReturn(Optional.of(new Usuario(1L,"Ana","ana@exemplo.com","hash",null)));when(senhas.corresponde("senha","hash")).thenReturn(true);when(tokens.gerar("ana@exemplo.com")).thenReturn("jwt");assertEquals("jwt",caso.executar("ana@exemplo.com","senha"));}
+ @Test void rejeitaSenhaInvalida(){when(usuarios.buscarPorEmail("ana@exemplo.com")).thenReturn(Optional.of(new Usuario(1L,"Ana","ana@exemplo.com","hash",null)));when(senhas.corresponde("errada","hash")).thenReturn(false);assertThrows(IllegalArgumentException.class,()->caso.executar("ana@exemplo.com","errada"));}
+}

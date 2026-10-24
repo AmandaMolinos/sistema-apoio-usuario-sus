@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:md="clr-namespace:ApoioSus.Models"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             xmlns:views="clr-namespace:ApoioSus.Views"
+             x:Class="ApoioSus.Views.UnidadeSaudePage"
+             x:DataType="vm:UnidadeSaudeViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Unidades de saúde">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Detalhe" TargetType="Label">
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+		</Style>
+		<Style x:Key="TextoAba" TargetType="Label">
+			<Setter Property="HorizontalOptions" Value="Center" />
+			<Setter Property="FontAttributes" Value="Bold" />
+			<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+		</Style>
+		<Style x:Key="CampoBusca" TargetType="Border">
+			<Setter Property="StrokeShape" Value="RoundRectangle 14" />
+			<Setter Property="Stroke" Value="{StaticResource LinhaClara}" />
+			<Setter Property="StrokeThickness" Value="1" />
+			<Setter Property="Padding" Value="12,0" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+		</Style>
+	</ContentPage.Resources>
+
+	<Grid RowDefinitions="*,Auto">
+		<Grid Grid.Row="0" Padding="20,16,20,0" RowDefinitions="Auto,Auto,*" RowSpacing="12" MaximumWidthRequest="480">
+
+			<!-- Cabeçalho -->
+			<Grid Grid.Row="0" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+				<Label Grid.Row="0" Grid.Column="0" Text="Unidades de saúde" FontSize="22" FontAttributes="Bold" />
+				<Label Grid.Row="1" Grid.Column="0" Text="{Binding TituloResultado}" Style="{StaticResource Detalhe}"
+				       IsVisible="{Binding MostrandoUnidades}" />
+				<Label Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Text="Trocar município" FontAttributes="Bold"
+				       TextColor="{StaticResource Primary}" VerticalOptions="Center"
+				       IsVisible="{Binding MostrandoUnidades}" AutomationId="TrocarMunicipio">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding TrocarMunicipioCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+			</Grid>
+
+			<VerticalStackLayout Grid.Row="1" Spacing="8" IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}">
+				<Label Text="{Binding ErroGeral}" TextColor="#C62828" />
+				<Button Text="Tentar novamente" Command="{Binding TentarNovamenteCommand}" />
+			</VerticalStackLayout>
+
+			<!-- Passo 1: escolher o município -->
+			<Grid Grid.Row="2" RowDefinitions="Auto,Auto,*" RowSpacing="12" IsVisible="{Binding EscolhendoMunicipio}">
+				<Label Grid.Row="0" Text="Escolha o município de São Paulo para ver as UPAs do SUS." Style="{StaticResource Detalhe}" />
+				<Border Grid.Row="1" Style="{StaticResource CampoBusca}">
+					<Grid ColumnDefinitions="24,*" ColumnSpacing="10">
+						<Image Grid.Column="0" Source="ic_busca.png" WidthRequest="20" HeightRequest="20" />
+						<Entry Grid.Column="1" Text="{Binding Busca}" Placeholder="Buscar município" />
+					</Grid>
+				</Border>
+				<ActivityIndicator Grid.Row="2" IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}"
+				                   VerticalOptions="Start" />
+				<CollectionView Grid.Row="2" ItemsSource="{Binding Municipios}" SelectionMode="Single"
+				                SelectedItem="{Binding MunicipioTocado}">
+					<CollectionView.ItemTemplate>
+						<DataTemplate x:DataType="md:MunicipioDados">
+							<Label Text="{Binding Nome}" FontSize="16" Padding="4,12" />
+						</DataTemplate>
+					</CollectionView.ItemTemplate>
+				</CollectionView>
+			</Grid>
+
+			<!-- Passo 2: UPAs do município (mapa ou lista) -->
+			<Grid Grid.Row="2" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="12" IsVisible="{Binding MostrandoUnidades}">
+
+				<Border Grid.Row="0" Style="{StaticResource CampoBusca}">
+					<Grid ColumnDefinitions="24,*" ColumnSpacing="10">
+						<Image Grid.Column="0" Source="ic_busca.png" WidthRequest="20" HeightRequest="20" />
+						<Entry Grid.Column="1" Text="{Binding BuscaUnidade}" Placeholder="Buscar por nome ou endereço" />
+					</Grid>
+				</Border>
+
+				<!-- Abas Mapa / Lista -->
+				<Border Grid.Row="1" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="4"
+				        BackgroundColor="{AppThemeBinding Light=#E9EFF7, Dark={StaticResource Gray900}}">
+					<Grid ColumnDefinitions="*,*" ColumnSpacing="4">
+						<Border Grid.Column="0" StrokeThickness="0" StrokeShape="RoundRectangle 11" Padding="0,10"
+						        BackgroundColor="Transparent">
+							<Border.Triggers>
+								<DataTrigger TargetType="Border" Binding="{Binding ModoMapa}" Value="True">
+									<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+								</DataTrigger>
+							</Border.Triggers>
+							<Border.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding VerMapaCommand}" />
+							</Border.GestureRecognizers>
+							<Label Text="Mapa" Style="{StaticResource TextoAba}">
+								<Label.Triggers>
+									<DataTrigger TargetType="Label" Binding="{Binding ModoMapa}" Value="True">
+										<Setter Property="TextColor" Value="White" />
+									</DataTrigger>
+								</Label.Triggers>
+							</Label>
+						</Border>
+						<Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 11" Padding="0,10"
+						        BackgroundColor="Transparent">
+							<Border.Triggers>
+								<DataTrigger TargetType="Border" Binding="{Binding ModoLista}" Value="True">
+									<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+								</DataTrigger>
+							</Border.Triggers>
+							<Border.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding VerListaCommand}" />
+							</Border.GestureRecognizers>
+							<Label Text="Lista" Style="{StaticResource TextoAba}">
+								<Label.Triggers>
+									<DataTrigger TargetType="Label" Binding="{Binding ModoLista}" Value="True">
+										<Setter Property="TextColor" Value="White" />
+									</DataTrigger>
+								</Label.Triggers>
+							</Label>
+						</Border>
+					</Grid>
+				</Border>
+
+				<ActivityIndicator Grid.Row="2" IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+				<Label Grid.Row="3" Text="Nenhuma UPA do SUS encontrada neste município." TextColor="Gray"
+				       HorizontalOptions="Center" Margin="0,24,0,0" IsVisible="{Binding SemUnidades}" />
+
+				<!-- Modo mapa: desenho de mapa (modelo) e cartão da unidade escolhida -->
+				<Grid Grid.Row="3" RowDefinitions="*,Auto" RowSpacing="0" IsVisible="{Binding ModoMapa}">
+					<Border Grid.Row="0" StrokeThickness="0" StrokeShape="RoundRectangle 18" MinimumHeightRequest="160">
+						<Image Source="mapa_modelo.png" Aspect="AspectFill" />
+					</Border>
+
+					<Border Grid.Row="1" Margin="0,-16,0,12" StrokeThickness="0" StrokeShape="RoundRectangle 18" Padding="18,16"
+					        IsVisible="{Binding TemSelecionada}"
+					        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+						<Border.Shadow>
+							<Shadow Brush="#1E6BD6" Opacity="0.14" Radius="12" Offset="0,-2" />
+						</Border.Shadow>
+						<VerticalStackLayout Spacing="10" x:DataType="vm:UnidadeSaudeViewModel">
+							<Label Text="{Binding Selecionada.Titulo}" FontSize="18" FontAttributes="Bold" />
+							<Grid ColumnDefinitions="24,*" ColumnSpacing="10">
+								<Image Grid.Column="0" Source="ic_local.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Start" />
+								<VerticalStackLayout Grid.Column="1">
+									<Label Text="{Binding Selecionada.Rua}" Style="{StaticResource Detalhe}" TextColor="{AppThemeBinding Light=#2A3547, Dark=White}" />
+									<Label Text="{Binding Selecionada.Bairro}" Style="{StaticResource Detalhe}" TextColor="{AppThemeBinding Light=#2A3547, Dark=White}" />
+								</VerticalStackLayout>
+							</Grid>
+							<Grid ColumnDefinitions="24,*" ColumnSpacing="10" IsVisible="{Binding Selecionada.TemTelefone}">
+								<Image Grid.Column="0" Source="ic_telefone.png" WidthRequest="20" HeightRequest="20" />
+								<Label Grid.Column="1" Text="{Binding Selecionada.Telefone}" Style="{StaticResource Detalhe}" TextColor="{AppThemeBinding Light=#2A3547, Dark=White}" />
+							</Grid>
+							<Button Text="Ver rotas" Command="{Binding VerRotasCommand}" CornerRadius="12" FontAttributes="Bold"
+							        HeightRequest="48" Margin="0,4,0,0" />
+						</VerticalStackLayout>
+					</Border>
+				</Grid>
+
+				<!-- Modo lista -->
+				<Grid Grid.Row="3" RowDefinitions="*,Auto" RowSpacing="8" IsVisible="{Binding ModoLista}">
+					<CollectionView Grid.Row="0" ItemsSource="{Binding Unidades}" SelectionMode="None"
+					                IsVisible="{Binding TemUnidades}">
+						<CollectionView.ItemsLayout>
+							<LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+						</CollectionView.ItemsLayout>
+						<CollectionView.ItemTemplate>
+							<DataTemplate x:DataType="vm:UnidadeItem">
+								<Border StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="16,14" Margin="2,2,2,4"
+								        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+									<Border.Shadow>
+										<Shadow Brush="#1E6BD6" Opacity="0.10" Radius="10" Offset="0,3" />
+									</Border.Shadow>
+									<Border.GestureRecognizers>
+										<TapGestureRecognizer Tapped="AoTocarUnidade" />
+									</Border.GestureRecognizers>
+									<Grid ColumnDefinitions="48,*,Auto" ColumnSpacing="14">
+										<Image Grid.Column="0" Source="card_unidade.png" WidthRequest="48" HeightRequest="48"
+										       VerticalOptions="Start" />
+										<VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+											<Label Text="{Binding Titulo}" FontAttributes="Bold" FontSize="16" />
+											<Label Text="{Binding Rua}" Style="{StaticResource Detalhe}" />
+											<Label Text="{Binding Bairro}" Style="{StaticResource Detalhe}" />
+											<Label Text="{Binding Telefone}" Style="{StaticResource Detalhe}" IsVisible="{Binding TemTelefone}" />
+										</VerticalStackLayout>
+										<Label Grid.Column="2" Text="›" FontSize="26" VerticalOptions="Center"
+										       TextColor="{StaticResource CinzaIcone}" />
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</CollectionView.ItemTemplate>
+					</CollectionView>
+
+					<Button Grid.Row="1" Text="Carregar mais" Command="{Binding CarregarMaisCommand}"
+					        IsVisible="{Binding TemMais}" />
+				</Grid>
+			</Grid>
+		</Grid>
+
+		<views:BarraInferior Grid.Row="1" Atual="unidade-saude" />
+	</Grid>
+</ContentPage>

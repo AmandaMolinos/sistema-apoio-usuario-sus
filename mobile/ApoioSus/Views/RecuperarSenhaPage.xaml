@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             x:Class="ApoioSus.Views.RecuperarSenhaPage"
+             x:DataType="vm:RecuperarSenhaViewModel"
+             Title="Recuperar senha">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Erro" TargetType="Label">
+			<Setter Property="TextColor" Value="#C62828" />
+			<Setter Property="FontSize" Value="12" />
+		</Style>
+	</ContentPage.Resources>
+
+	<ScrollView>
+		<VerticalStackLayout Padding="24" Spacing="6" MaximumWidthRequest="480">
+
+			<Label Text="Informe o e-mail da sua conta para receber o código de recuperação."
+			       Margin="0,0,0,12" />
+
+			<Label Text="E-mail" />
+			<Entry Text="{Binding Email}" Placeholder="voce@exemplo.com" Keyboard="Email"
+			       ReturnCommand="{Binding EnviarCommand}" />
+			<Label Text="{Binding EmailErro}" Style="{StaticResource Erro}"
+			       IsVisible="{Binding EmailErro, Converter={StaticResource TemTexto}}" />
+
+			<Label Text="{Binding ErroGeral}" Style="{StaticResource Erro}" FontSize="14" Margin="0,8,0,0"
+			       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+
+			<Label Text="{Binding Sucesso}" TextColor="Green" Margin="0,8,0,0"
+			       IsVisible="{Binding Sucesso, Converter={StaticResource TemTexto}}" />
+			<Label Text="Ambiente de estudo: o código aparece no log do servidor, não é enviado por e-mail."
+			       FontSize="12" TextColor="Gray"
+			       IsVisible="{Binding Sucesso, Converter={StaticResource TemTexto}}" />
+
+			<Button Text="Enviar código" Command="{Binding EnviarCommand}" Margin="0,16,0,0" />
+			<ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+			<Button Text="Já tenho o código" Command="{Binding JaTenhoCodigoCommand}"
+			        BackgroundColor="Transparent" TextColor="{StaticResource Primary}" />
+			<Button Text="Voltar" Command="{Binding VoltarCommand}" BackgroundColor="Transparent" TextColor="Gray" />
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

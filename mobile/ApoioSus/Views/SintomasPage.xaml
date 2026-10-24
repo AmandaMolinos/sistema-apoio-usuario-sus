@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             x:Class="ApoioSus.Views.SintomasPage"
+             x:DataType="vm:SintomasViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Análise de sintomas">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Detalhe" TargetType="Label">
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+		</Style>
+		<Style x:Key="Cartao" TargetType="Border">
+			<Setter Property="StrokeThickness" Value="0" />
+			<Setter Property="StrokeShape" Value="RoundRectangle 16" />
+			<Setter Property="Padding" Value="16,14" />
+			<Setter Property="Margin" Value="2,2,2,4" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+			<Setter Property="Shadow">
+				<Setter.Value>
+					<Shadow Brush="#1E6BD6" Opacity="0.10" Radius="10" Offset="0,3" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="BotaoPrincipal" TargetType="Button">
+			<Setter Property="CornerRadius" Value="12" />
+			<Setter Property="FontAttributes" Value="Bold" />
+			<Setter Property="HeightRequest" Value="52" />
+		</Style>
+	</ContentPage.Resources>
+
+	<ScrollView>
+		<VerticalStackLayout Padding="20,16,20,24" Spacing="16" MaximumWidthRequest="480">
+
+			<!-- Cabeçalho: voltar e título centralizado -->
+			<Grid ColumnDefinitions="48,*,48">
+				<Label Grid.Column="0" Text="‹" FontSize="34" VerticalOptions="Center" HorizontalOptions="Start"
+				       AutomationId="Voltar">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding VoltarCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+				<Label Grid.Column="1" Text="Análise de sintomas" FontSize="18" FontAttributes="Bold"
+				       HorizontalOptions="Center" VerticalOptions="Center" />
+			</Grid>
+
+			<!-- Passo 1: descrever os sintomas -->
+			<VerticalStackLayout Spacing="16" IsVisible="{Binding Digitando}">
+				<Label Text="Descreva os sintomas que você está sentindo para receber orientações informativas."
+				       FontSize="15" Style="{StaticResource Detalhe}" />
+
+				<Border StrokeShape="RoundRectangle 14" Stroke="{StaticResource LinhaClara}" StrokeThickness="1"
+				        Padding="8"
+				        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+					<Editor Text="{Binding Texto}" HeightRequest="200" MaxLength="500" AutomationId="Sintomas"
+					        Placeholder="Descreva seus sintomas aqui...&#10;Ex.: dor de cabeça, febre, tosse..." />
+				</Border>
+
+				<Label Text="{Binding TextoErro}" TextColor="#C62828" FontSize="13"
+				       IsVisible="{Binding TextoErro, Converter={StaticResource TemTexto}}" />
+				<Label Text="{Binding ErroGeral}" TextColor="#C62828"
+				       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+				<ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+				<Button Text="Analisar sintomas" Command="{Binding AnalisarCommand}"
+				        Style="{StaticResource BotaoPrincipal}" />
+			</VerticalStackLayout>
+
+			<!-- Passo 2: resultado -->
+			<VerticalStackLayout Spacing="14" IsVisible="{Binding MostrandoResultado}">
+
+				<Border Style="{StaticResource Cartao}" BackgroundColor="#FDECEA" Stroke="#E5534B" StrokeThickness="1.5"
+				        IsVisible="{Binding Urgente}">
+					<VerticalStackLayout Spacing="6">
+						<Label Text="Procure atendimento agora" FontSize="17" FontAttributes="Bold" TextColor="#B3261E" />
+						<Label Text="{Binding Alertas}" TextColor="#5C1A16" />
+					</VerticalStackLayout>
+				</Border>
+
+				<Label Text="Orientações informativas para o que você descreveu:" Style="{StaticResource Detalhe}"
+				       IsVisible="{Binding TemSintomas}" />
+
+				<VerticalStackLayout BindableLayout.ItemsSource="{Binding Sintomas}" Spacing="12">
+					<BindableLayout.ItemTemplate>
+						<DataTemplate x:DataType="vm:SintomaItem">
+							<Border Style="{StaticResource Cartao}">
+								<VerticalStackLayout Spacing="6">
+									<Label Text="{Binding Nome}" FontSize="17" FontAttributes="Bold"
+									       TextColor="{StaticResource Primary}" />
+									<Label Text="Cuidados gerais" FontAttributes="Bold" Margin="0,4,0,0" />
+									<Label Text="{Binding Cuidados}" Style="{StaticResource Detalhe}" />
+									<Label Text="Procure atendimento se" FontAttributes="Bold" Margin="0,6,0,0" />
+									<Label Text="{Binding Procurar}" Style="{StaticResource Detalhe}" />
+								</VerticalStackLayout>
+							</Border>
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
+				</VerticalStackLayout>
+
+				<Border Style="{StaticResource Cartao}" IsVisible="{Binding NaoReconhecido}">
+					<VerticalStackLayout Spacing="6">
+						<Label Text="Não reconhecemos esses sintomas" FontSize="16" FontAttributes="Bold" />
+						<Label Style="{StaticResource Detalhe}"
+						       Text="Tente descrevê-los com outras palavras, como febre, tosse ou dor de cabeça. Se os sintomas persistirem ou piorarem, procure a unidade de saúde mais próxima." />
+					</VerticalStackLayout>
+				</Border>
+
+				<Button Text="Ver unidades de saúde" Command="{Binding VerUnidadesCommand}"
+				        Style="{StaticResource BotaoPrincipal}" />
+				<Button Text="Nova análise" Command="{Binding NovaAnaliseCommand}" BackgroundColor="Transparent"
+				        TextColor="{StaticResource Primary}" BorderColor="{StaticResource Primary}" BorderWidth="1"
+				        CornerRadius="12" HeightRequest="48" />
+			</VerticalStackLayout>
+
+			<!-- Aviso fixo -->
+			<Grid ColumnDefinitions="28,*" ColumnSpacing="10" Margin="4,8,4,0">
+				<Image Grid.Column="0" Source="ic_info.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Start" />
+				<Label Grid.Column="1" Text="{Binding Aviso}" FontSize="12" Style="{StaticResource Detalhe}" />
+			</Grid>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             xmlns:views="clr-namespace:ApoioSus.Views"
+             x:Class="ApoioSus.Views.VacinasPage"
+             x:DataType="vm:VacinasViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Minhas vacinas">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+	</ContentPage.Resources>
+
+	<Grid RowDefinitions="*,Auto">
+		<Grid Grid.Row="0" Padding="20,16,20,0" RowDefinitions="Auto,Auto,*" RowSpacing="12" MaximumWidthRequest="480">
+
+			<Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+				<Label Grid.Column="0" Text="Minhas vacinas" FontSize="22" FontAttributes="Bold" VerticalOptions="Center" />
+				<Button Grid.Column="1" Text="+ Adicionar" Command="{Binding NovaCommand}"
+				        CornerRadius="12" FontAttributes="Bold" Padding="18,8" />
+			</Grid>
+
+			<Label Grid.Row="1" Text="{Binding ErroGeral}" TextColor="#C62828"
+			       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+
+			<Label Grid.Row="2" Text="Nenhuma vacina cadastrada ainda." TextColor="Gray"
+			       HorizontalOptions="Center" Margin="0,24,0,0" IsVisible="{Binding ListaVazia}" />
+
+			<CollectionView Grid.Row="2" ItemsSource="{Binding Vacinas}" SelectionMode="None"
+			                IsVisible="{Binding TemVacinas}">
+				<CollectionView.ItemsLayout>
+					<LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+				</CollectionView.ItemsLayout>
+				<CollectionView.ItemTemplate>
+					<DataTemplate x:DataType="vm:VacinaItem">
+						<Border StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="16,14" Margin="2,2,2,4"
+						        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+							<Border.Shadow>
+								<Shadow Brush="#1E6BD6" Opacity="0.10" Radius="10" Offset="0,3" />
+							</Border.Shadow>
+							<Border.GestureRecognizers>
+								<TapGestureRecognizer Tapped="AoTocarVacina" />
+							</Border.GestureRecognizers>
+							<Grid ColumnDefinitions="44,*,Auto" ColumnSpacing="14">
+								<Image Grid.Column="0" Source="vacina_aplicada.png" WidthRequest="44" HeightRequest="44"
+								       VerticalOptions="Center" />
+								<VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+									<Label Text="{Binding Titulo}" FontAttributes="Bold" FontSize="16" />
+									<Label Text="{Binding Aplicacao}" FontSize="13"
+									       TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+									<Label Text="{Binding Lote}" FontSize="13" IsVisible="{Binding TemLote}"
+									       TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+									<Label Text="{Binding Local}" FontSize="13" IsVisible="{Binding TemLocal}"
+									       TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+								</VerticalStackLayout>
+								<Label Grid.Column="2" Text="›" FontSize="26" VerticalOptions="Center"
+								       TextColor="{StaticResource CinzaIcone}" />
+							</Grid>
+						</Border>
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</Grid>
+
+		<views:BarraInferior Grid.Row="1" Atual="vacinas" />
+	</Grid>
+</ContentPage>

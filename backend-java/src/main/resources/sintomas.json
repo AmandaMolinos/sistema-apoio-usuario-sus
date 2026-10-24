@@ -1,0 +1,206 @@
+{
+  "alertas": [
+    {
+      "palavras": ["falta de ar", "dificuldade para respirar", "dificuldade de respirar", "nao consigo respirar", "sufocando", "respirando com dificuldade"],
+      "mensagem": "Falta de ar pode ser grave."
+    },
+    {
+      "palavras": ["dor no peito", "aperto no peito", "pressao no peito"],
+      "mensagem": "Dor ou aperto no peito pode indicar um problema no coração."
+    },
+    {
+      "palavras": ["desmaio", "desmaiei", "desmaiou", "desmaiando", "perdi a consciencia", "perdeu a consciencia"],
+      "mensagem": "Desmaio ou perda de consciência precisa de avaliação médica."
+    },
+    {
+      "palavras": ["convulsao", "convulsoes", "convulsionando", "convulsionou"],
+      "mensagem": "Convulsão é uma emergência."
+    },
+    {
+      "palavras": ["rosto torto", "boca torta", "fala enrolada", "fraqueza de um lado", "perdi a forca de um lado", "dormencia de um lado", "paralisia"],
+      "mensagem": "Esses sinais podem indicar um AVC, e cada minuto conta."
+    },
+    {
+      "palavras": ["sangramento intenso", "muito sangue", "vomitando sangue", "vomitei sangue", "sangue no vomito", "sangue nas fezes", "fezes com sangue", "fezes pretas"],
+      "mensagem": "Sangramento intenso ou vômito/fezes com sangue precisa de atendimento imediato."
+    },
+    {
+      "palavras": ["confusao mental", "muito confuso", "muito confusa", "desorientado", "desorientada", "nao reconheco as pessoas"],
+      "mensagem": "Confusão mental súbita precisa de avaliação médica."
+    },
+    {
+      "palavras": ["pensamentos de suicidio", "quero me matar", "vou me matar", "tirar minha vida", "acabar com a minha vida", "pensando em suicidio"],
+      "mensagem": "Você não está sozinho. Ligue agora para o CVV, no 188 (24 horas, gratuito), ou para o SAMU, no 192."
+    }
+  ],
+  "sintomas": [
+    {
+      "nome": "Febre",
+      "palavras": ["febre", "febril", "temperatura alta", "calafrio", "calafrios"],
+      "cuidados": [
+        "Beba bastante líquido e descanse.",
+        "Use roupas leves e mantenha o ambiente arejado.",
+        "Meça a temperatura e anote os horários."
+      ],
+      "procurar": [
+        "A febre dura mais de 3 dias ou volta depois de melhorar.",
+        "Há manchas na pele, dor forte no corpo, sangramento ou sonolência excessiva (pode ser dengue).",
+        "Crianças pequenas, idosos, gestantes ou pessoas com doenças crônicas com febre devem ser avaliados logo."
+      ]
+    },
+    {
+      "nome": "Tosse",
+      "palavras": ["tosse", "tossindo", "tossir"],
+      "cuidados": [
+        "Beba água ao longo do dia e evite ambientes com fumaça ou poeira.",
+        "Cubra a boca e o nariz ao tossir e lave as mãos com frequência.",
+        "Evite aglomerações enquanto estiver com sintomas respiratórios."
+      ],
+      "procurar": [
+        "A tosse dura mais de 2 semanas.",
+        "Há sangue na tosse, falta de ar ou chiado no peito.",
+        "Há febre alta junto com a tosse."
+      ]
+    },
+    {
+      "nome": "Dor de cabeça",
+      "palavras": ["dor de cabeca", "dores de cabeca", "cefaleia", "enxaqueca", "cabeca doendo", "cabeca dolorida"],
+      "cuidados": [
+        "Descanse em um lugar calmo, com pouca luz e pouco barulho.",
+        "Beba água e não pule refeições.",
+        "Observe o que costuma desencadear a dor, como sono ruim, estresse ou telas por muito tempo."
+      ],
+      "procurar": [
+        "A dor é muito forte, súbita ou diferente das que você já teve.",
+        "Vem com febre alta, rigidez no pescoço, vômitos repetidos ou confusão.",
+        "Aparece após uma pancada na cabeça ou piora a cada dia."
+      ]
+    },
+    {
+      "nome": "Dor de garganta",
+      "palavras": ["dor de garganta", "garganta doendo", "garganta inflamada", "garganta irritada", "dor para engolir"],
+      "cuidados": [
+        "Beba líquidos mornos e mantenha-se hidratado.",
+        "Descanse a voz e evite fumaça e bebidas muito geladas.",
+        "Lave as mãos e evite compartilhar copos e talheres."
+      ],
+      "procurar": [
+        "A dor dura mais de 5 dias ou vem com febre alta.",
+        "Há dificuldade para engolir ou para respirar.",
+        "Aparecem placas de pus na garganta."
+      ]
+    },
+    {
+      "nome": "Coriza ou nariz entupido",
+      "palavras": ["coriza", "nariz entupido", "nariz escorrendo", "nariz congestionado", "espirro", "espirrando", "catarro"],
+      "cuidados": [
+        "Lave o nariz com soro fisiológico e beba bastante líquido.",
+        "Descanse e evite mudanças bruscas de temperatura.",
+        "Cubra o nariz e a boca ao espirrar e lave as mãos."
+      ],
+      "procurar": [
+        "Os sintomas passam de 10 dias sem melhora.",
+        "Há febre alta, dor forte no rosto ou secreção com mau cheiro.",
+        "Há falta de ar ou chiado no peito."
+      ]
+    },
+    {
+      "nome": "Diarreia",
+      "palavras": ["diarreia", "intestino solto", "fezes liquidas", "caganeira"],
+      "cuidados": [
+        "Beba bastante líquido, como água, água de coco e soro de reidratação oral (disponível nas unidades de saúde).",
+        "Mantenha uma alimentação leve, em pequenas porções.",
+        "Lave bem as mãos e os alimentos."
+      ],
+      "procurar": [
+        "A diarreia dura mais de 2 dias ou há sinais de desidratação: boca seca, urina escura ou pouca, muita sede e tontura.",
+        "Há sangue nas fezes, febre alta ou dor abdominal forte.",
+        "Bebês, crianças pequenas e idosos com diarreia devem ser avaliados logo."
+      ]
+    },
+    {
+      "nome": "Náusea ou vômito",
+      "palavras": ["vomito", "vomitando", "vomitei", "enjoo", "enjoado", "enjoada", "nausea", "nauseas"],
+      "cuidados": [
+        "Faça pausas e depois tome pequenos goles de líquido, com frequência.",
+        "Volte a comer aos poucos, com alimentos leves.",
+        "Descanse e evite cheiros fortes."
+      ],
+      "procurar": [
+        "Os vômitos duram mais de 1 dia ou você não consegue manter líquidos.",
+        "Há sinais de desidratação, dor abdominal forte ou febre alta.",
+        "Há sangue no vômito ou dor de cabeça forte junto."
+      ]
+    },
+    {
+      "nome": "Dor abdominal",
+      "palavras": ["dor de barriga", "dor na barriga", "barriga doendo", "dor abdominal", "dor no estomago", "dor de estomago", "colica", "azia", "queimacao no estomago"],
+      "cuidados": [
+        "Descanse e faça refeições leves, em pequenas porções.",
+        "Evite alimentos gordurosos, muito condimentados e bebidas alcoólicas.",
+        "Beba água ao longo do dia."
+      ],
+      "procurar": [
+        "A dor é forte, não passa em algumas horas ou piora.",
+        "Há barriga muito dura, febre, vômitos repetidos ou sangue nas fezes.",
+        "A dor se concentra no lado direito, embaixo da barriga."
+      ]
+    },
+    {
+      "nome": "Dor no corpo ou cansaço",
+      "palavras": ["dor no corpo", "dores no corpo", "corpo doendo", "dor muscular", "dores musculares", "cansaco", "cansada", "cansado", "fraqueza", "moleza", "indisposicao"],
+      "cuidados": [
+        "Descanse e durma bem.",
+        "Beba bastante líquido e faça refeições regulares.",
+        "Retome as atividades aos poucos, quando se sentir melhor."
+      ],
+      "procurar": [
+        "O cansaço dura semanas sem explicação.",
+        "Vem com febre, manchas na pele ou dor forte atrás dos olhos.",
+        "Há perda de peso sem motivo ou falta de ar ao fazer pouco esforço."
+      ]
+    },
+    {
+      "nome": "Dor de ouvido",
+      "palavras": ["dor de ouvido", "ouvido doendo", "dor no ouvido", "ouvido entupido"],
+      "cuidados": [
+        "Evite colocar cotonete, objetos ou gotas por conta própria.",
+        "Mantenha o ouvido seco.",
+        "Descanse e beba líquidos."
+      ],
+      "procurar": [
+        "A dor dura mais de 2 dias ou é muito forte.",
+        "Sai secreção ou sangue do ouvido, ou há perda de audição.",
+        "Há febre alta, principalmente em crianças."
+      ]
+    },
+    {
+      "nome": "Tontura",
+      "palavras": ["tontura", "tonteira", "tonto", "tonta", "vertigem", "cabeca rodando", "sensacao de desmaio"],
+      "cuidados": [
+        "Sente-se ou deite-se até a tontura passar e levante-se devagar.",
+        "Beba água e faça refeições nos horários.",
+        "Evite dirigir ou subir em lugares altos enquanto estiver tonto."
+      ],
+      "procurar": [
+        "A tontura é frequente ou dura mais de um dia.",
+        "Vem com dor no peito, falta de ar, batimentos irregulares ou dificuldade para falar.",
+        "Aparece após uma pancada na cabeça."
+      ]
+    },
+    {
+      "nome": "Manchas ou coceira na pele",
+      "palavras": ["coceira", "coçando", "manchas na pele", "mancha vermelha", "manchas vermelhas", "vermelhidao na pele", "alergia na pele", "bolinhas na pele", "pele irritada"],
+      "cuidados": [
+        "Mantenha a pele limpa e seca e evite coçar.",
+        "Evite produtos novos na pele, como sabonetes, cremes e perfumes.",
+        "Observe se as manchas aparecem após algum alimento, planta ou produto."
+      ],
+      "procurar": [
+        "As manchas se espalham rápido, doem ou formam bolhas.",
+        "Vêm com febre, dor no corpo ou sangramento (podem ser sinais de dengue ou de outra infecção).",
+        "Há inchaço no rosto, nos lábios ou dificuldade para respirar: procure atendimento imediato."
+      ]
+    }
+  ]
+}

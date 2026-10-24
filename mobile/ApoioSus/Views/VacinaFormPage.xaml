@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             x:Class="ApoioSus.Views.VacinaFormPage"
+             x:DataType="vm:VacinaFormViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="{Binding Titulo}">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Erro" TargetType="Label">
+			<Setter Property="TextColor" Value="#C62828" />
+			<Setter Property="FontSize" Value="12" />
+		</Style>
+		<Style x:Key="Rotulo" TargetType="Label">
+			<Setter Property="FontSize" Value="15" />
+			<Setter Property="FontAttributes" Value="Bold" />
+			<Setter Property="Margin" Value="0,10,0,0" />
+		</Style>
+
+		<!-- Campo com cantos arredondados e borda clara, como no mockup. -->
+		<Style x:Key="Campo" TargetType="Border">
+			<Setter Property="StrokeShape" Value="RoundRectangle 14" />
+			<Setter Property="Stroke" Value="{StaticResource LinhaClara}" />
+			<Setter Property="StrokeThickness" Value="1" />
+			<Setter Property="Padding" Value="14,0" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+		</Style>
+	</ContentPage.Resources>
+
+	<ScrollView>
+		<VerticalStackLayout Padding="20,16,20,24" Spacing="6" MaximumWidthRequest="480">
+
+			<!-- Cabeçalho: voltar e título centralizado -->
+			<Grid ColumnDefinitions="48,*,48">
+				<Label Grid.Column="0" Text="‹" FontSize="34" VerticalOptions="Center" HorizontalOptions="Start"
+				       AutomationId="Voltar">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding VoltarCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+				<Label Grid.Column="1" Text="{Binding Titulo}" FontSize="18" FontAttributes="Bold"
+				       HorizontalOptions="Center" VerticalOptions="Center" />
+			</Grid>
+
+			<Label Text="Vacina" Style="{StaticResource Rotulo}" />
+			<Border Style="{StaticResource Campo}">
+				<Entry Text="{Binding Nome}" Placeholder="Digite o nome da vacina" MaxLength="150" AutomationId="Nome" />
+			</Border>
+			<Label Text="{Binding NomeErro}" Style="{StaticResource Erro}"
+			       IsVisible="{Binding NomeErro, Converter={StaticResource TemTexto}}" />
+
+			<Label Text="Data de aplicação" Style="{StaticResource Rotulo}" />
+			<Border Style="{StaticResource Campo}">
+				<Grid ColumnDefinitions="*,24" ColumnSpacing="12">
+					<Entry Grid.Column="0" Text="{Binding DataAplicacao}" Placeholder="dd/mm/aaaa" MaxLength="10"
+					       Keyboard="Numeric" AutomationId="DataAplicacao" />
+					<Image Grid.Column="1" Source="ic_calendario.png" WidthRequest="22" HeightRequest="22" />
+				</Grid>
+			</Border>
+			<Label Text="{Binding DataErro}" Style="{StaticResource Erro}"
+			       IsVisible="{Binding DataErro, Converter={StaticResource TemTexto}}" />
+
+			<Label Text="Lote (opcional)" Style="{StaticResource Rotulo}" />
+			<Border Style="{StaticResource Campo}">
+				<Entry Text="{Binding Lote}" Placeholder="Informe o lote" MaxLength="100" AutomationId="Lote" />
+			</Border>
+			<Label Text="{Binding LoteErro}" Style="{StaticResource Erro}"
+			       IsVisible="{Binding LoteErro, Converter={StaticResource TemTexto}}" />
+
+			<Label Text="Local de aplicação (opcional)" Style="{StaticResource Rotulo}" />
+			<Border Style="{StaticResource Campo}">
+				<Entry Text="{Binding Local}" Placeholder="Digite o local, ex.: UBS Centro" MaxLength="200"
+				       AutomationId="Local" />
+			</Border>
+			<Label Text="{Binding LocalErro}" Style="{StaticResource Erro}"
+			       IsVisible="{Binding LocalErro, Converter={StaticResource TemTexto}}" />
+
+			<Label Text="{Binding ErroGeral}" Style="{StaticResource Erro}" FontSize="14" Margin="0,8,0,0"
+			       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+
+			<Button Text="Salvar" Command="{Binding SalvarCommand}" CornerRadius="14" FontAttributes="Bold"
+			        HeightRequest="52" Margin="0,16,0,0" />
+			<ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+			<Button Text="Excluir vacina" Command="{Binding ExcluirCommand}" BackgroundColor="Transparent"
+			        TextColor="#C62828" BorderColor="#C62828" BorderWidth="1" CornerRadius="14" HeightRequest="48"
+			        IsVisible="{Binding EhEdicao}" />
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

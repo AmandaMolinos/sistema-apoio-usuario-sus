@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:views="clr-namespace:ApoioSus.Views"
+             x:Class="ApoioSus.Views.MaisPage"
+             x:DataType="vm:MaisViewModel"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Mais">
+
+	<Grid RowDefinitions="*,Auto">
+		<VerticalStackLayout Grid.Row="0" Padding="24" Spacing="12" MaximumWidthRequest="480">
+			<Button Text="Minha conta" Command="{Binding ContaCommand}" />
+			<Button Text="Sair" Command="{Binding SairCommand}"
+			        BackgroundColor="Transparent" TextColor="Gray" />
+		</VerticalStackLayout>
+
+		<views:BarraInferior Grid.Row="1" Atual="mais" />
+	</Grid>
+</ContentPage>

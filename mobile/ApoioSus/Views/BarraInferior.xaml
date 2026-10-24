@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ApoioSus.Views.BarraInferior">
+
+	<!-- Barra de abas fixa na parte de baixo das telas principais. "Atual" destaca o item da tela aberta. -->
+	<Grid ColumnDefinitions="*,*,*,*,*" Padding="0,8,0,10"
+	      BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}">
+
+		<BoxView Grid.ColumnSpan="5" HeightRequest="1" VerticalOptions="Start"
+		         Color="{AppThemeBinding Light={StaticResource LinhaClara}, Dark={StaticResource Gray600}}" />
+
+		<VerticalStackLayout Grid.Column="0" Spacing="3" HorizontalOptions="Center">
+			<VerticalStackLayout.GestureRecognizers>
+				<TapGestureRecognizer CommandParameter="inicio" Tapped="AoTocar" />
+			</VerticalStackLayout.GestureRecognizers>
+			<Image x:Name="IconeInicio" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+			<Label x:Name="TextoInicio" Text="Início" FontSize="11" HorizontalOptions="Center" />
+		</VerticalStackLayout>
+
+		<VerticalStackLayout Grid.Column="1" Spacing="3" HorizontalOptions="Center">
+			<VerticalStackLayout.GestureRecognizers>
+				<TapGestureRecognizer CommandParameter="vacinas" Tapped="AoTocar" />
+			</VerticalStackLayout.GestureRecognizers>
+			<Image x:Name="IconeVacinas" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+			<Label x:Name="TextoVacinas" Text="Vacinas" FontSize="11" HorizontalOptions="Center" />
+		</VerticalStackLayout>
+
+		<VerticalStackLayout Grid.Column="2" Spacing="3" HorizontalOptions="Center">
+			<VerticalStackLayout.GestureRecognizers>
+				<TapGestureRecognizer CommandParameter="medicamentos" Tapped="AoTocar" />
+			</VerticalStackLayout.GestureRecognizers>
+			<Image x:Name="IconeMedicamentos" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+			<Label x:Name="TextoMedicamentos" Text="Medicamentos" FontSize="11" HorizontalOptions="Center" />
+		</VerticalStackLayout>
+
+		<VerticalStackLayout Grid.Column="3" Spacing="3" HorizontalOptions="Center">
+			<VerticalStackLayout.GestureRecognizers>
+				<TapGestureRecognizer CommandParameter="unidade-saude" Tapped="AoTocar" />
+			</VerticalStackLayout.GestureRecognizers>
+			<Image x:Name="IconeUnidades" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+			<Label x:Name="TextoUnidades" Text="Unidades" FontSize="11" HorizontalOptions="Center" />
+		</VerticalStackLayout>
+
+		<VerticalStackLayout Grid.Column="4" Spacing="3" HorizontalOptions="Center">
+			<VerticalStackLayout.GestureRecognizers>
+				<TapGestureRecognizer CommandParameter="mais" Tapped="AoTocar" />
+			</VerticalStackLayout.GestureRecognizers>
+			<Image x:Name="IconeMais" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" />
+			<Label x:Name="TextoMais" Text="Mais" FontSize="11" HorizontalOptions="Center" />
+		</VerticalStackLayout>
+	</Grid>
+</ContentView>

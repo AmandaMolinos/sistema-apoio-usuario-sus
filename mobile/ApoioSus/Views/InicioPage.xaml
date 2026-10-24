@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             xmlns:views="clr-namespace:ApoioSus.Views"
+             x:Class="ApoioSus.Views.InicioPage"
+             x:DataType="vm:InicioViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Apoio SUS">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+
+		<!-- Estilo dos cartões da grade: branco, cantos arredondados e sombra leve. -->
+		<Style x:Key="Cartao" TargetType="Border">
+			<Setter Property="StrokeThickness" Value="0" />
+			<Setter Property="StrokeShape" Value="RoundRectangle 16" />
+			<Setter Property="Padding" Value="12,18" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+			<Setter Property="Shadow">
+				<Setter.Value>
+					<Shadow Brush="#1E6BD6" Opacity="0.12" Radius="12" Offset="0,4" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</ContentPage.Resources>
+
+	<Grid RowDefinitions="*,Auto">
+		<ScrollView Grid.Row="0">
+			<VerticalStackLayout Padding="24,20,24,16" Spacing="4" MaximumWidthRequest="480">
+
+				<Label Text="Apoio SUS" FontSize="16" FontAttributes="Bold"
+				       TextColor="{StaticResource Primary}" />
+
+				<Label Text="{Binding Saudacao}" FontSize="28" FontAttributes="Bold" Margin="0,18,0,0" />
+				<Label Text="Seus dados de saúde em um só lugar" FontSize="14"
+				       TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+
+				<Label Text="{Binding ErroGeral}" TextColor="#C62828" Margin="0,8,0,0"
+				       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+
+				<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="14" RowSpacing="14"
+				      Margin="0,20,0,0">
+
+					<Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Cartao}">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding PerfilSaudeCommand}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+							<Image Source="card_perfil.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+							<VerticalStackLayout Spacing="0">
+								<Label Text="Meu perfil" FontAttributes="Bold" HorizontalTextAlignment="Center"
+								       TextColor="{StaticResource Primary}" />
+								<Label Text="de saúde" HorizontalTextAlignment="Center"
+								       TextColor="{StaticResource Primary}" />
+							</VerticalStackLayout>
+						</VerticalStackLayout>
+					</Border>
+
+					<Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Cartao}">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding VacinasCommand}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+							<Image Source="card_vacina.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+							<VerticalStackLayout Spacing="0">
+								<Label Text="Minhas" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+								<Label Text="vacinas" HorizontalTextAlignment="Center" />
+							</VerticalStackLayout>
+						</VerticalStackLayout>
+					</Border>
+
+					<Border Grid.Row="1" Grid.Column="0" Style="{StaticResource Cartao}">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding MedicamentosCommand}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+							<Image Source="card_medicamento.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+							<VerticalStackLayout Spacing="0">
+								<Label Text="Meus" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+								<Label Text="medicamentos" HorizontalTextAlignment="Center" />
+							</VerticalStackLayout>
+						</VerticalStackLayout>
+					</Border>
+
+					<Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Cartao}">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding UnidadeSaudeCommand}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+							<Image Source="card_unidade.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+							<VerticalStackLayout Spacing="0">
+								<Label Text="Unidades" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+								<Label Text="de saúde" HorizontalTextAlignment="Center" />
+							</VerticalStackLayout>
+						</VerticalStackLayout>
+					</Border>
+
+					<Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Cartao}">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding OrientacoesCommand}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+							<Image Source="card_orientacoes.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+							<VerticalStackLayout Spacing="0">
+								<Label Text="Orientações" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+								<Label Text="de saúde" HorizontalTextAlignment="Center" />
+							</VerticalStackLayout>
+						</VerticalStackLayout>
+					</Border>
+
+					<Border Grid.Row="2" Grid.Column="1" Style="{StaticResource Cartao}">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding SintomasCommand}" />
+						</Border.GestureRecognizers>
+						<VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+							<Image Source="card_sintomas.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+							<VerticalStackLayout Spacing="0">
+								<Label Text="Análise de" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+								<Label Text="sintomas" HorizontalTextAlignment="Center" />
+							</VerticalStackLayout>
+						</VerticalStackLayout>
+					</Border>
+				</Grid>
+			</VerticalStackLayout>
+		</ScrollView>
+
+		<views:BarraInferior Grid.Row="1" Atual="inicio" />
+	</Grid>
+</ContentPage>

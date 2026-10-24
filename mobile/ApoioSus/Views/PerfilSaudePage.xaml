@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             x:Class="ApoioSus.Views.PerfilSaudePage"
+             x:DataType="vm:PerfilSaudeViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Meu perfil de saúde">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Erro" TargetType="Label">
+			<Setter Property="TextColor" Value="#C62828" />
+			<Setter Property="FontSize" Value="12" />
+		</Style>
+
+		<!-- Cartão branco arredondado, como no mockup. -->
+		<Style x:Key="Cartao" TargetType="Border">
+			<Setter Property="StrokeThickness" Value="0" />
+			<Setter Property="StrokeShape" Value="RoundRectangle 18" />
+			<Setter Property="Padding" Value="18,16" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+			<Setter Property="Shadow">
+				<Setter.Value>
+					<Shadow Brush="#1E6BD6" Opacity="0.10" Radius="12" Offset="0,4" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style x:Key="TituloCartao" TargetType="Label">
+			<Setter Property="FontSize" Value="17" />
+			<Setter Property="FontAttributes" Value="Bold" />
+			<Setter Property="VerticalOptions" Value="Center" />
+		</Style>
+		<Style x:Key="Rotulo" TargetType="Label">
+			<Setter Property="FontSize" Value="12" />
+			<Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+		</Style>
+		<Style x:Key="Valor" TargetType="Label">
+			<Setter Property="FontSize" Value="15" />
+			<Setter Property="FontAttributes" Value="Bold" />
+		</Style>
+		<Style x:Key="Link" TargetType="Label">
+			<Setter Property="FontSize" Value="15" />
+			<Setter Property="FontAttributes" Value="Bold" />
+			<Setter Property="TextColor" Value="{StaticResource Primary}" />
+			<Setter Property="VerticalOptions" Value="Center" />
+		</Style>
+	</ContentPage.Resources>
+
+	<ScrollView>
+		<VerticalStackLayout Padding="20,16,20,24" Spacing="16" MaximumWidthRequest="480">
+
+			<!-- Cabeçalho: voltar e título centralizado -->
+			<Grid ColumnDefinitions="48,*,48">
+				<Label Grid.Column="0" Text="‹" FontSize="34" VerticalOptions="Center" HorizontalOptions="Start"
+				       AutomationId="Voltar">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding VoltarCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+				<Label Grid.Column="1" Text="Meu perfil de saúde" FontSize="18" FontAttributes="Bold"
+				       HorizontalOptions="Center" VerticalOptions="Center" />
+			</Grid>
+
+			<Label Text="{Binding ErroGeral}" Style="{StaticResource Erro}" FontSize="14"
+			       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+			<Label Text="{Binding Sucesso}" TextColor="Green"
+			       IsVisible="{Binding Sucesso, Converter={StaticResource TemTexto}}" />
+			<ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+			<!-- Dados pessoais -->
+			<Border Style="{StaticResource Cartao}">
+				<VerticalStackLayout Spacing="16">
+					<Grid ColumnDefinitions="*,Auto">
+						<Label Grid.Column="0" Text="Dados pessoais" Style="{StaticResource TituloCartao}" />
+						<Label Grid.Column="1" Text="Editar" Style="{StaticResource Link}" AutomationId="EditarConta">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding EditarContaCommand}" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_nome.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Nome" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding Nome}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_nascimento.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Data de nascimento" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding DataNascimento}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_email.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="E-mail" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding Email}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Informações de saúde: leitura -->
+			<Border Style="{StaticResource Cartao}" IsVisible="{Binding Visualizando}">
+				<VerticalStackLayout Spacing="16">
+					<Grid ColumnDefinitions="*,Auto">
+						<Label Grid.Column="0" Text="Informações de saúde" Style="{StaticResource TituloCartao}" />
+						<Label Grid.Column="1" Text="Editar" Style="{StaticResource Link}" AutomationId="EditarSaude">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding EditarSaudeCommand}" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_peso.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Peso" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding PesoTexto}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_altura.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Altura" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding AlturaTexto}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_tipo.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Tipo sanguíneo" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding TipoTexto}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_alergias.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Alergias" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding AlergiasTexto}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+
+					<Grid ColumnDefinitions="40,*" ColumnSpacing="14">
+						<Image Grid.Column="0" Source="perfil_observacoes.png" WidthRequest="40" HeightRequest="40" VerticalOptions="Start" />
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Observações médicas" Style="{StaticResource Rotulo}" />
+							<Label Text="{Binding ObservacoesTexto}" Style="{StaticResource Valor}" />
+						</VerticalStackLayout>
+					</Grid>
+				</VerticalStackLayout>
+			</Border>
+
+			<!-- Informações de saúde: edição -->
+			<Border Style="{StaticResource Cartao}" IsVisible="{Binding Editando}">
+				<VerticalStackLayout Spacing="6">
+					<Label Text="Editar informações de saúde" Style="{StaticResource TituloCartao}" Margin="0,0,0,8" />
+
+					<Label Text="Peso (kg)" Style="{StaticResource Rotulo}" />
+					<Entry Text="{Binding Peso}" Placeholder="Ex.: 72,5" Keyboard="Numeric" />
+					<Label Text="{Binding PesoErro}" Style="{StaticResource Erro}"
+					       IsVisible="{Binding PesoErro, Converter={StaticResource TemTexto}}" />
+
+					<Label Text="Altura (m)" Style="{StaticResource Rotulo}" Margin="0,8,0,0" />
+					<Entry Text="{Binding Altura}" Placeholder="Ex.: 1,75" Keyboard="Numeric" />
+					<Label Text="{Binding AlturaErro}" Style="{StaticResource Erro}"
+					       IsVisible="{Binding AlturaErro, Converter={StaticResource TemTexto}}" />
+
+					<Label Text="Tipo sanguíneo" Style="{StaticResource Rotulo}" Margin="0,8,0,0" />
+					<Picker ItemsSource="{Binding Tipos}" SelectedItem="{Binding TipoSanguineo}" />
+
+					<Label Text="Alergias" Style="{StaticResource Rotulo}" Margin="0,8,0,0" />
+					<Editor Text="{Binding Alergias}" HeightRequest="80" MaxLength="500" />
+					<Label Text="{Binding AlergiasErro}" Style="{StaticResource Erro}"
+					       IsVisible="{Binding AlergiasErro, Converter={StaticResource TemTexto}}" />
+
+					<Label Text="Observações médicas" Style="{StaticResource Rotulo}" Margin="0,8,0,0" />
+					<Editor Text="{Binding Observacoes}" HeightRequest="100" MaxLength="1000" />
+					<Label Text="{Binding ObservacoesErro}" Style="{StaticResource Erro}"
+					       IsVisible="{Binding ObservacoesErro, Converter={StaticResource TemTexto}}" />
+
+					<Button Text="Salvar" Command="{Binding SalvarCommand}" Margin="0,12,0,0" />
+					<Button Text="Cancelar" Command="{Binding CancelarCommand}" BackgroundColor="Transparent" TextColor="Gray" />
+					<Button Text="Limpar perfil" Command="{Binding LimparCommand}" BackgroundColor="#C62828" />
+				</VerticalStackLayout>
+			</Border>
+
+			<Label Text="Dados informados por você; o aplicativo não acessa prontuários oficiais."
+			       FontSize="12" TextColor="Gray" HorizontalTextAlignment="Center" />
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

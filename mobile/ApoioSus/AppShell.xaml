@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ApoioSus.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:ApoioSus.Views"
+    FlyoutBehavior="Disabled"
+    Title="Apoio SUS">
+
+    <ShellContent
+        Title="Entrar"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="login" />
+
+    <!-- Telas principais. A barra de abas fica dentro de cada uma (views:BarraInferior). -->
+    <ShellContent
+        Title="Início"
+        ContentTemplate="{DataTemplate views:InicioPage}"
+        Route="inicio" />
+
+    <ShellContent
+        Title="Vacinas"
+        ContentTemplate="{DataTemplate views:VacinasPage}"
+        Route="vacinas" />
+
+    <ShellContent
+        Title="Medicamentos"
+        ContentTemplate="{DataTemplate views:MedicamentosPage}"
+        Route="medicamentos" />
+
+    <ShellContent
+        Title="Unidades de saúde"
+        ContentTemplate="{DataTemplate views:UnidadeSaudePage}"
+        Route="unidade-saude" />
+
+    <ShellContent
+        Title="Mais"
+        ContentTemplate="{DataTemplate views:MaisPage}"
+        Route="mais" />
+
+</Shell>

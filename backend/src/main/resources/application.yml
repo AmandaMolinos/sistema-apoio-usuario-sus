@@ -1,0 +1,20 @@
+server:
+  port: ${API_PORT:8090}
+
+app:
+  sessao:
+    horas-validade: ${SESSAO_HORAS_VALIDADE:24}
+
+spring:
+  application:
+    name: apoio-sus
+  datasource:
+    url: ${DB_URL:jdbc:sqlite:apoio_sus.db?foreign_keys=on}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+  flyway:
+    locations: classpath:db/migration/sqlite

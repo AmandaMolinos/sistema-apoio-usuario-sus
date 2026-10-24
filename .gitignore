@@ -1,0 +1,20 @@
+﻿# Backend
+backend/target/
+backend-java/target/
+*.db
+*.db-journal
+application-local.yml
+# Mobile
+mobile/**/bin/
+mobile/**/obj/
+.vs/
+# IDE
+.idea/
+*.iml
+.vscode/
+# Documentação interna (não vai para o repositório)
+/docs/
+/PLANEJAMENTO.md
+# Ferramentas locais (configuração do Claude Code e saídas do Playwright)
+.claude/
+.playwright-mcp/

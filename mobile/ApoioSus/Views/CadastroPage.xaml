@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             x:Class="ApoioSus.Views.CadastroPage"
+             x:DataType="vm:CadastroViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Criar conta">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Erro" TargetType="Label">
+			<Setter Property="TextColor" Value="#C62828" />
+			<Setter Property="FontSize" Value="12" />
+		</Style>
+
+		<!-- Campo com cantos arredondados, ícone à esquerda e borda clara, como no mockup. -->
+		<Style x:Key="Campo" TargetType="Border">
+			<Setter Property="StrokeShape" Value="RoundRectangle 14" />
+			<Setter Property="Stroke" Value="{StaticResource LinhaClara}" />
+			<Setter Property="StrokeThickness" Value="1" />
+			<Setter Property="Padding" Value="14,0" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+		</Style>
+	</ContentPage.Resources>
+
+	<Grid>
+		<!-- Círculos decorativos no canto inferior esquerdo (não recebem toque) -->
+		<Ellipse Fill="#331E6BD6" WidthRequest="130" HeightRequest="130" HorizontalOptions="Start" VerticalOptions="End"
+		         Margin="-45,0,0,-30" InputTransparent="True" />
+		<Ellipse Fill="#3328B487" WidthRequest="110" HeightRequest="110" HorizontalOptions="Start" VerticalOptions="End"
+		         Margin="30,0,0,-45" InputTransparent="True" />
+
+		<ScrollView>
+			<VerticalStackLayout Padding="24,16,24,32" Spacing="12" MaximumWidthRequest="440">
+
+				<!-- Voltar e marca centralizada -->
+				<Grid ColumnDefinitions="48,*,48">
+					<Label Grid.Column="0" Text="‹" FontSize="34" VerticalOptions="Center" HorizontalOptions="Start"
+					       AutomationId="Voltar">
+						<Label.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding VoltarCommand}" />
+						</Label.GestureRecognizers>
+					</Label>
+					<VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="0">
+						<Image Source="logo_cruz.png" WidthRequest="48" HeightRequest="48" HorizontalOptions="Center" />
+						<Label Text="SUS" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"
+						       TextColor="{StaticResource Primary}" />
+					</VerticalStackLayout>
+				</Grid>
+
+				<Label Text="Criar conta" FontSize="28" FontAttributes="Bold" Margin="0,12,0,0" />
+				<Label Text="Preencha seus dados para começar" FontSize="14" Margin="0,0,0,8"
+				       TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+
+				<!-- Nome completo -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_usuario.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding Nome}" Placeholder="Nome completo" MaxLength="120"
+						       AutomationId="Nome" />
+					</Grid>
+				</Border>
+				<Label Text="{Binding NomeErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding NomeErro, Converter={StaticResource TemTexto}}" />
+
+				<!-- E-mail -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_email.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding Email}" Placeholder="E-mail" Keyboard="Email"
+						       AutomationId="Email" />
+					</Grid>
+				</Border>
+				<Label Text="{Binding EmailErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding EmailErro, Converter={StaticResource TemTexto}}" />
+
+				<!-- Senha -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*,28" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_cadeado.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding Senha}" Placeholder="Senha" MaxLength="72"
+						       IsPassword="{Binding SenhaOculta}" AutomationId="Senha" />
+						<Image Grid.Column="2" Source="{Binding IconeOlhoSenha}" WidthRequest="22" HeightRequest="22">
+							<Image.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding AlternarSenhaCommand}" />
+							</Image.GestureRecognizers>
+						</Image>
+					</Grid>
+				</Border>
+				<Label Text="{Binding SenhaErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding SenhaErro, Converter={StaticResource TemTexto}}" />
+
+				<!-- Confirmar senha -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*,28" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_cadeado.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding ConfirmarSenha}" Placeholder="Confirmar senha" MaxLength="72"
+						       IsPassword="{Binding ConfirmacaoOculta}" AutomationId="ConfirmarSenha" />
+						<Image Grid.Column="2" Source="{Binding IconeOlhoConfirmacao}" WidthRequest="22" HeightRequest="22">
+							<Image.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding AlternarConfirmacaoCommand}" />
+							</Image.GestureRecognizers>
+						</Image>
+					</Grid>
+				</Border>
+				<Label Text="{Binding ConfirmarSenhaErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding ConfirmarSenhaErro, Converter={StaticResource TemTexto}}" />
+
+				<!-- Data de nascimento (opcional) -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_calendario.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding DataNascimento}" Placeholder="Data de nascimento (opcional): dd/mm/aaaa"
+						       MaxLength="10" Keyboard="Numeric" AutomationId="DataNascimento" />
+					</Grid>
+				</Border>
+				<Label Text="{Binding DataNascimentoErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding DataNascimentoErro, Converter={StaticResource TemTexto}}" />
+
+				<!-- Termos de uso e política de privacidade -->
+				<Grid ColumnDefinitions="Auto,*" ColumnSpacing="6" Margin="0,4,0,0">
+					<CheckBox Grid.Column="0" IsChecked="{Binding AceitouTermos}" Color="{StaticResource Primary}"
+					          VerticalOptions="Start" AutomationId="AceitouTermos" />
+					<Label Grid.Column="1" FontSize="14" VerticalOptions="Center">
+						<Label.FormattedText>
+							<FormattedString>
+								<Span Text="Li e concordo com os " />
+								<Span Text="Termos de Uso" FontAttributes="Bold" TextColor="{StaticResource Primary}">
+									<Span.GestureRecognizers>
+										<TapGestureRecognizer Command="{Binding AbrirTermosCommand}" />
+									</Span.GestureRecognizers>
+								</Span>
+								<Span Text=" e " />
+								<Span Text="Política de Privacidade" FontAttributes="Bold" TextColor="{StaticResource Primary}">
+									<Span.GestureRecognizers>
+										<TapGestureRecognizer Command="{Binding AbrirPrivacidadeCommand}" />
+									</Span.GestureRecognizers>
+								</Span>
+								<Span Text="." />
+							</FormattedString>
+						</Label.FormattedText>
+					</Label>
+				</Grid>
+				<Label Text="{Binding TermosErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding TermosErro, Converter={StaticResource TemTexto}}" />
+
+				<Label Text="{Binding ErroGeral}" Style="{StaticResource Erro}" FontSize="14"
+				       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+
+				<Button Text="Cadastrar" Command="{Binding CadastrarCommand}" CornerRadius="14" FontAttributes="Bold"
+				        HeightRequest="52" Margin="0,8,0,0" />
+				<ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+				<Label HorizontalOptions="Center" Margin="0,12,0,0" FontSize="14">
+					<Label.FormattedText>
+						<FormattedString>
+							<Span Text="Já tem uma conta? "
+							      TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+							<Span Text="Entrar" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+						</FormattedString>
+					</Label.FormattedText>
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding VoltarCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+			</VerticalStackLayout>
+		</ScrollView>
+	</Grid>
+</ContentPage>

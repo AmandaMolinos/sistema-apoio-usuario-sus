@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             xmlns:conv="clr-namespace:ApoioSus.Converters"
+             x:Class="ApoioSus.Views.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="Entrar">
+
+	<ContentPage.Resources>
+		<conv:TemTextoConverter x:Key="TemTexto" />
+		<Style x:Key="Erro" TargetType="Label">
+			<Setter Property="TextColor" Value="#C62828" />
+			<Setter Property="FontSize" Value="12" />
+		</Style>
+
+		<!-- Campo com cantos arredondados, ícone à esquerda e borda clara, como no mockup. -->
+		<Style x:Key="Campo" TargetType="Border">
+			<Setter Property="StrokeShape" Value="RoundRectangle 14" />
+			<Setter Property="Stroke" Value="{StaticResource LinhaClara}" />
+			<Setter Property="StrokeThickness" Value="1" />
+			<Setter Property="Padding" Value="14,0" />
+			<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+		</Style>
+	</ContentPage.Resources>
+
+	<Grid>
+		<!-- Círculos decorativos nos cantos (não recebem toque) -->
+		<Ellipse Fill="#331E6BD6" WidthRequest="150" HeightRequest="150" HorizontalOptions="End" VerticalOptions="Start"
+		         Margin="0,-50,-40,0" InputTransparent="True" />
+		<Ellipse Fill="#3328B487" WidthRequest="110" HeightRequest="110" HorizontalOptions="End" VerticalOptions="Start"
+		         Margin="0,-20,30,0" InputTransparent="True" />
+		<Ellipse Fill="#3328B487" WidthRequest="130" HeightRequest="130" HorizontalOptions="Start" VerticalOptions="End"
+		         Margin="-40,0,0,-40" InputTransparent="True" />
+
+		<ScrollView>
+			<VerticalStackLayout Padding="28,24" Spacing="12" MaximumWidthRequest="440" VerticalOptions="Center">
+
+				<!-- Marca e título -->
+				<HorizontalStackLayout HorizontalOptions="Center" Spacing="14" Margin="0,0,0,4">
+					<Label Text="SUS" FontSize="46" FontAttributes="Bold" TextColor="{StaticResource Primary}"
+					       VerticalOptions="Center" />
+					<Image Source="logo_cruz.png" WidthRequest="72" HeightRequest="72" VerticalOptions="Center" />
+				</HorizontalStackLayout>
+				<Label Text="Meu Saúde SUS" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+				<Label Text="Suas informações de saúde&#10;de forma simples e segura" FontSize="14"
+				       HorizontalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,12"
+				       TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+
+				<!-- E-mail -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_email.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding Email}" Placeholder="E-mail" Keyboard="Email"
+						       AutomationId="Email" />
+					</Grid>
+				</Border>
+				<Label Text="{Binding EmailErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding EmailErro, Converter={StaticResource TemTexto}}" />
+
+				<!-- Senha com olho para mostrar/esconder -->
+				<Border Style="{StaticResource Campo}">
+					<Grid ColumnDefinitions="24,*,28" ColumnSpacing="12">
+						<Image Grid.Column="0" Source="ic_cadeado.png" WidthRequest="22" HeightRequest="22" />
+						<Entry Grid.Column="1" Text="{Binding Senha}" Placeholder="Senha" IsPassword="{Binding SenhaOculta}"
+						       ReturnCommand="{Binding EntrarCommand}" AutomationId="Senha" />
+						<Image Grid.Column="2" Source="{Binding IconeOlho}" WidthRequest="22" HeightRequest="22"
+						       AutomationId="MostrarSenha">
+							<Image.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding AlternarSenhaCommand}" />
+							</Image.GestureRecognizers>
+						</Image>
+					</Grid>
+				</Border>
+				<Label Text="{Binding SenhaErro}" Style="{StaticResource Erro}"
+				       IsVisible="{Binding SenhaErro, Converter={StaticResource TemTexto}}" />
+
+				<Label Text="Esqueceu sua senha?" FontSize="13" FontAttributes="Bold" HorizontalOptions="End"
+				       TextColor="{StaticResource Primary}" AutomationId="EsqueceuSenha">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding IrParaRecuperarSenhaCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+
+				<Label Text="{Binding ErroGeral}" Style="{StaticResource Erro}" FontSize="14"
+				       IsVisible="{Binding ErroGeral, Converter={StaticResource TemTexto}}" />
+
+				<Button Text="Entrar" Command="{Binding EntrarCommand}" CornerRadius="14" FontAttributes="Bold"
+				        HeightRequest="52" Margin="0,8,0,0" />
+				<ActivityIndicator IsRunning="{Binding Carregando}" IsVisible="{Binding Carregando}" />
+
+				<Label HorizontalOptions="Center" Margin="0,16,0,0" FontSize="14">
+					<Label.FormattedText>
+						<FormattedString>
+							<Span Text="Não tem uma conta? "
+							      TextColor="{AppThemeBinding Light={StaticResource CinzaTexto}, Dark={StaticResource Gray200}}" />
+							<Span Text="Cadastre-se" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+						</FormattedString>
+					</Label.FormattedText>
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding IrParaCadastroCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+			</VerticalStackLayout>
+		</ScrollView>
+	</Grid>
+</ContentPage>

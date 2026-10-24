@@ -1,0 +1,68 @@
+[
+  {
+    "titulo": "Prevenção da gripe",
+    "resumo": "Lave as mãos, cubra a boca ao tossir ou espirrar e tome a vacina contra a gripe todos os anos.",
+    "categoria": "Prevenção",
+    "icone": "gripe"
+  },
+  {
+    "titulo": "Vacinação em dia",
+    "resumo": "Mantenha a caderneta de vacinação atualizada. As vacinas do calendário do SUS são gratuitas.",
+    "categoria": "Prevenção",
+    "icone": "vacina"
+  },
+  {
+    "titulo": "Higiene das mãos",
+    "resumo": "Lave as mãos com água e sabão por 20 a 30 segundos, antes de comer e depois de usar o banheiro.",
+    "categoria": "Prevenção",
+    "icone": "higiene"
+  },
+  {
+    "titulo": "Alimentação saudável",
+    "resumo": "Prefira alimentos in natura, como frutas, verduras e legumes, e reduza os ultraprocessados.",
+    "categoria": "Hábitos",
+    "icone": "alimentacao"
+  },
+  {
+    "titulo": "Atividade física",
+    "resumo": "Adultos devem buscar ao menos 150 minutos por semana de atividade moderada. Comece devagar.",
+    "categoria": "Hábitos",
+    "icone": "atividade"
+  },
+  {
+    "titulo": "Saúde mental",
+    "resumo": "Converse sobre o que sente e procure ajuda. O CVV atende pelo 188, 24 horas, e o SUS tem os CAPS.",
+    "categoria": "Hábitos",
+    "icone": "saude_mental"
+  },
+  {
+    "titulo": "Sono de qualidade",
+    "resumo": "Dormir de 7 a 9 horas por noite, em horários regulares, ajuda o corpo e a mente a se recuperarem.",
+    "categoria": "Hábitos",
+    "icone": "sono"
+  },
+  {
+    "titulo": "Tabaco e álcool",
+    "resumo": "Parar de fumar reduz o risco de várias doenças. O SUS oferece tratamento gratuito para isso.",
+    "categoria": "Hábitos",
+    "icone": "generico"
+  },
+  {
+    "titulo": "Prevenção da dengue",
+    "resumo": "Elimine água parada em pneus, vasos e caixas-d'água. Com febre alta e dor no corpo, procure uma unidade de saúde.",
+    "categoria": "Doenças",
+    "icone": "generico"
+  },
+  {
+    "titulo": "Pressão e diabetes",
+    "resumo": "Meça a pressão e a glicemia com regularidade. Essas doenças muitas vezes não dão sintomas no início.",
+    "categoria": "Doenças",
+    "icone": "generico"
+  },
+  {
+    "titulo": "Quando procurar atendimento",
+    "resumo": "Em urgência, ligue 192 (SAMU). Casos leves: procure a UBS. Casos graves: UPA ou hospital.",
+    "categoria": "Doenças",
+    "icone": "generico"
+  }
+]

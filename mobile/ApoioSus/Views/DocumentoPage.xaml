@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ApoioSus.ViewModels"
+             x:Class="ApoioSus.Views.DocumentoPage"
+             x:DataType="vm:DocumentoViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource FundoClaro}, Dark={StaticResource OffBlack}}"
+             Title="{Binding Titulo}">
+
+	<ScrollView>
+		<VerticalStackLayout Padding="20,16,20,24" Spacing="16" MaximumWidthRequest="480">
+			<Grid ColumnDefinitions="48,*,48">
+				<Label Grid.Column="0" Text="‹" FontSize="34" VerticalOptions="Center" HorizontalOptions="Start"
+				       AutomationId="Voltar">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding VoltarCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+				<Label Grid.Column="1" Text="{Binding Titulo}" FontSize="18" FontAttributes="Bold"
+				       HorizontalOptions="Center" VerticalOptions="Center" />
+			</Grid>
+
+			<Border StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="18"
+			        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+				<Label Text="{Binding Texto}" FontSize="14" LineHeight="1.3" />
+			</Border>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

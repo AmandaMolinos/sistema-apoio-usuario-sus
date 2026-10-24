@@ -39,7 +39,7 @@ public class ApoioSusApplication {
 
     public static void main(String[] args) throws Exception {
         int porta = Integer.parseInt(variavel("API_PORT", "8080"));
-        String dbUrl = comCredenciais(variavel("DB_URL", "jdbc:sqlite:apoio_sus_puro.db?foreign_keys=on&busy_timeout=5000"));
+        String dbUrl = comCredenciais(variavel("DB_URL", "jdbc:mysql://localhost:3306/apoio_sus?createDatabaseIfNotExist=true"));
         long horasSessao = Long.parseLong(variavel("SESSAO_HORAS_VALIDADE", "24"));
         long minutosRecuperacao = Long.parseLong(variavel("RECUPERACAO_MINUTOS_VALIDADE", "30"));
 

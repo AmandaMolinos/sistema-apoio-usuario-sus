@@ -1,0 +1,225 @@
+@baseUrl = http://localhost:8080
+@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpYUBleGFtcGxlLmNvbSIsImlhdCI6MTc5MTgzNzgzOSwiZXhwIjoxNzkxODQxNDM5fQ.HIaf_UotL0kDKh7VSi7KlKtpdfF2XB2tKlUZEM0zjjg
+@vacinaId = 3
+@medicamentoId = 1
+
+### 1. CADASTRAR USUARIO
+POST {{baseUrl}}/api/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Maria Silva",
+  "email": "maria@example.com",
+  "senha": "Senha123!",
+  "dataNascimento": "1995-05-20"
+}
+
+### 2. FAZER LOGIN
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "maria@example.com",
+  "senha": "Senha123!"
+}
+
+### 3. CONSULTAR USUARIO AUTENTICADO
+GET {{baseUrl}}/api/usuarios/me
+Authorization: Bearer {{token}}
+
+### 4. CONSULTAR PERFIL DE SAUDE
+GET {{baseUrl}}/api/perfil
+Authorization: Bearer {{token}}
+
+### 5. ATUALIZAR PERFIL DE SAUDE
+PUT {{baseUrl}}/api/perfil
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "peso": 68.5,
+  "altura": 1.65,
+  "tipoSanguineo": "O+",
+  "alergias": "Dipirona",
+  "observacoesMedicas": "Informacao de teste"
+}
+
+### 6. CONSULTAR PERFIL PARA CONFERIR ATUALIZACAO
+GET {{baseUrl}}/api/perfil
+Authorization: Bearer {{token}}
+
+### 7. LOGIN COM SENHA INCORRETA (ESPERADO: 4XX)
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "maria@example.com",
+  "senha": "SenhaErrada123!"
+}
+
+### 8. CONSULTAR USUARIO SEM TOKEN (ESPERADO: 401)
+GET {{baseUrl}}/api/usuarios/me
+
+### 9. CONSULTAR PERFIL SEM TOKEN (ESPERADO: 401)
+GET {{baseUrl}}/api/perfil
+
+### 10. CADASTRO COM EMAIL INVALIDO (ESPERADO: 400)
+POST {{baseUrl}}/api/auth/cadastro
+Content-Type: application/json
+
+{
+  "nome": "Usuario Invalido",
+  "email": "email-invalido",
+  "senha": "SenhaForte123!",
+  "dataNascimento": "1995-04-23"
+}
+
+### 11. ATUALIZAR PERFIL COM DADOS INVALIDOS (ESPERADO: 400)
+PUT {{baseUrl}}/api/perfil
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "peso": -10,
+  "altura": 8,
+  "tipoSanguineo": "XYZ",
+  "alergias": "Teste",
+  "observacoesMedicas": "Teste"
+}
+
+### 12. CADASTRAR VACINA
+POST {{baseUrl}}/api/vacinas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Dengue",
+  "dataAplicacao": "2025-04-10",
+  "lote": "LOTEABC",
+  "localAplicacao": "UBS Central"
+}
+
+### 13. LISTAR VACINAS DO USUARIO
+GET {{baseUrl}}/api/vacinas
+Authorization: Bearer {{token}}
+
+### 14. CONSULTAR VACINA POR ID
+GET {{baseUrl}}/api/vacinas/{{vacinaId}}
+Authorization: Bearer {{token}}
+
+### 15. ATUALIZAR VACINA
+PUT {{baseUrl}}/api/vacinas/{{vacinaId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Dengue Atualizada",
+  "dataAplicacao": "2025-04-10",
+  "lote": "LOTE456",
+  "localAplicacao": "UBS Central - Sala 2"
+}
+
+### 16. CONFERIR ATUALIZACAO DA VACINA
+GET {{baseUrl}}/api/vacinas/{{vacinaId}}
+Authorization: Bearer {{token}}
+
+### 17. CADASTRAR VACINA COM DADOS INVALIDOS (ESPERADO: 4XX)
+POST {{baseUrl}}/api/vacinas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "",
+  "dataAplicacao": "data-invalida",
+  "lote": "",
+  "localAplicacao": ""
+}
+
+### 18. CONSULTAR VACINA INEXISTENTE (ESPERADO: 4XX)
+GET {{baseUrl}}/api/vacinas/999999
+Authorization: Bearer {{token}}
+
+### 19. EXCLUIR VACINA
+DELETE {{baseUrl}}/api/vacinas/{{vacinaId}}
+Authorization: Bearer {{token}}
+
+### 20. CONFERIR EXCLUSAO DA VACINA (ESPERADO: 4XX)
+GET {{baseUrl}}/api/vacinas/{{vacinaId}}
+Authorization: Bearer {{token}}
+
+### 21. LISTAR VACINAS SEM TOKEN (ESPERADO: 401)
+GET {{baseUrl}}/api/vacinas
+
+### 22. CADASTRAR MEDICAMENTO
+POST {{baseUrl}}/api/medicamentos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Medicamento B",
+  "dosagem": "500 mg",
+  "frequencia": "a cada 8 horas",
+  "dataInicio": "2025-04-10",
+  "dataFim": null
+}
+
+### 23. LISTAR MEDICAMENTOS DO USUARIO
+GET {{baseUrl}}/api/medicamentos
+Authorization: Bearer {{token}}
+
+### 24. CONSULTAR MEDICAMENTO POR ID
+GET {{baseUrl}}/api/medicamentos/{{medicamentoId}}
+Authorization: Bearer {{token}}
+
+### 25. ATUALIZAR MEDICAMENTO
+PUT {{baseUrl}}/api/medicamentos/{{medicamentoId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Medicamento A Atualizado",
+  "dosagem": "750 mg",
+  "frequencia": "a cada 12 horas",
+  "dataInicio": "2025-04-10",
+  "dataFim": "2025-05-10"
+}
+
+### 26. CONFERIR ATUALIZACAO DO MEDICAMENTO
+GET {{baseUrl}}/api/medicamentos/{{medicamentoId}}
+Authorization: Bearer {{token}}
+
+### 27. CADASTRAR MEDICAMENTO COM DATAS INCONSISTENTES (ESPERADO: 4XX)
+POST {{baseUrl}}/api/medicamentos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Medicamento de Teste",
+  "dosagem": "500 mg",
+  "frequencia": "uma vez ao dia",
+  "dataInicio": "2025-05-10",
+  "dataFim": "2025-04-10"
+}
+
+### 28. CONSULTAR MEDICAMENTO INEXISTENTE (ESPERADO: 4XX)
+GET {{baseUrl}}/api/medicamentos/999999
+Authorization: Bearer {{token}}
+
+### 29. EXCLUIR MEDICAMENTO
+DELETE {{baseUrl}}/api/medicamentos/{{medicamentoId}}
+Authorization: Bearer {{token}}
+
+### 30. CONFERIR EXCLUSAO DO MEDICAMENTO (ESPERADO: 4XX)
+GET {{baseUrl}}/api/medicamentos/{{medicamentoId}}
+Authorization: Bearer {{token}}
+
+### 31. LISTAR MEDICAMENTOS SEM TOKEN (ESPERADO: 401)
+GET {{baseUrl}}/api/medicamentos
+
+### 32. TESTE DE ISOLAMENTO ENTRE USUARIOS - VACINA
+GET {{baseUrl}}/api/vacinas/{{vacinaId}}
+Authorization: Bearer {{token}}
+
+### 33. TESTE DE ISOLAMENTO ENTRE USUARIOS - MEDICAMENTO
+GET {{baseUrl}}/api/medicamentos/{{medicamentoId}}
+Authorization: Bearer {{token}}
